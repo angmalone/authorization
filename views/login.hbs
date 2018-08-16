@@ -1,0 +1,21 @@
+<div class="landing">
+    <h2>Login</h2>
+
+    {{#if message}}
+    <div class="alert alert-danger">{{message}}</div>
+    {{/if}}
+
+    <form method="post" action="/login">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email">
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="email">Password:</label>
+            <input type="password" name="password" id="password">
+        </div>
+        <br>
+        <input type="submit">
+    </form>
+</div>
