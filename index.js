@@ -79,5 +79,5 @@ app.get("/", (req, res) => {
 app.set("port", process.env.PORT || 3000);
 
 app.listen(app.get("port"), () => {
-  console.log(`HOPPING OUT PORT ${app.get("port")} ESSKEETIT 🐍 `);
+  console.log(`HOPPIN OUT PORT ${app.get("port")} ESSKEETIT 🐍 `);
 });
