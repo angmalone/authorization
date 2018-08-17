@@ -1,4 +1,9 @@
 var express = require("express");
+var path = require("path");
+var logger = require("morgan");
+var cookieParser = require("cookie-parser");
+var dotenv = require("dotenv");
+var flash = require("connect-flash");
 var hbs = require("hbs");
 var Auth0Strategy = require("passport-auth0");
 var passport = require("passport");
@@ -6,24 +11,31 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var session = require("express-session");
 
-const app = express();
-//app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "hbs");
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
+dotenv.load();
 
-var sess = {
-  secret: "SLIME LANGUAGE LET'S GO",
-  cookie: {},
-  resave: false,
-  saveUninitialized: true
-};
+var app = express();
+
+app.set("view engine", "hbs");
+app.use(logger("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "PATEKWATER",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(flash());
 
 if (app.get("env") === "production") {
   sess.cookie.secure = true; // serve secure cookies, requires https
 }
-
-app.use(session(sess));
 
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
@@ -34,8 +46,9 @@ app.use("/", authRouter);
 var strategy = new Auth0Strategy(
   {
     domain: "engageproject.auth0.com",
-    clientID: "F6MIvNG2gP4FxBGtUgDf6aV--8ZgmwBV",
-    clientSecret: "YOUR_CLIENT_SECRET", // Replace this with the client secret for your app
+    clientID: "h7bFxRL3SD6byp8exB8DY4K2dYhP8qAn",
+    clientSecret:
+      "0oTf6rlBT-SoYAJAhy77Atal3-xlao81WBLrwz6TcAI98DVpfR-K6nFDJGwIzOvz", // Replace this with the client secret for your app
     callbackURL: "http://localhost:3000/callback"
   },
   function(accessToken, refreshToken, extraParams, profile, done) {
@@ -66,7 +79,5 @@ app.get("/", (req, res) => {
 app.set("port", process.env.PORT || 3000);
 
 app.listen(app.get("port"), () => {
-  console.log(
-    `WHAT KIND OF WATER IS THAT? IT'S PORT ${app.get("port")} WATER 🐍 `
-  );
+  console.log(`HOPPING OUT PORT ${app.get("port")} ESSKEETIT 🐍 `);
 });
