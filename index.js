@@ -2,10 +2,18 @@ var express = require("express");
 var hbs = require("hbs");
 var Auth0Strategy = require("passport-auth0");
 var passport = require("passport");
+var bodyParser = require("body-parser");
+var methodOverride = require("method-override");
 var session = require("express-session");
 
+const app = express();
+//app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "hbs");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+
 var sess = {
-  secret: "where tf is slime language",
+  secret: "SLIME LANGUAGE LET'S GO",
   cookie: {},
   resave: false,
   saveUninitialized: true
@@ -51,10 +59,14 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-app.set("port", process.env.PORT || 3001);
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
+app.set("port", process.env.PORT || 3000);
 
 app.listen(app.get("port"), () => {
   console.log(
-    `SLIME LANGUAGE WHERE YA AT WE WAITING ON PORT: ${app.get("port")} 🐍 `
+    `WHAT KIND OF WATER IS THAT? IT'S PORT ${app.get("port")} WATER 🐍 `
   );
 });
