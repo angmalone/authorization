@@ -4,9 +4,18 @@ const router = express.Router();
 
 const Snack = require("../db/snacks");
 
-/* GET home page. */
 router.get("/", function(req, res, next) {
   res.render("index");
+});
+
+router.get("/api/snacks", (req, res) => {
+  Snack.find()
+    .then(snacks => {
+      res.json(snacks);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 router.get(

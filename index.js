@@ -10,6 +10,7 @@ var passport = require("passport");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var session = require("express-session");
+var cors = require("cors");
 
 dotenv.load();
 
@@ -18,7 +19,7 @@ var app = express();
 app.set("view engine", "hbs");
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   session({
@@ -30,6 +31,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
 
 app.use(flash());
 
